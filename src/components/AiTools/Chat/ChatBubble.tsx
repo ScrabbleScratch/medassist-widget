@@ -33,7 +33,7 @@ const ChatBubble = ({ message }: Props) => {
           variant='dot'
           color='success'
         >
-          <Avatar alt='Asistente Virtual' src={`/avatars/${message.isUser ? '1' : '4'}.png`} />
+          <Avatar alt='Asistente Virtual' src={message.isUser ? 'https://api.aihxp.com/uploads/1_68115bbe0b.png' : 'https://api.aihxp.com/uploads/4_b4b7515f1c.png'} />
         </Badge>
       </Box>
       <Stack direction='column' alignItems={message.isUser ? 'flex-end' : 'flex-start'} spacing={1}>

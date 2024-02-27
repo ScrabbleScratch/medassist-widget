@@ -41,7 +41,7 @@ const AiToolsHeader = ({ onClose }: Props) => {
           variant='dot'
           color='success'
         >
-          <Avatar alt='Asistente Virtual' src='/avatars/4.png' sx={{ width: '60px', height: '60px' }} />
+          <Avatar alt='Asistente Virtual' src='https://api.aihxp.com/uploads/4_b4b7515f1c.png' sx={{ width: '60px', height: '60px' }} />
         </Badge>
       </Box>
       <Stack direction='column' width='100%'>
