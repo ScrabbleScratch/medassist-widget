@@ -14,11 +14,11 @@ export type UserFields = {
   provider:         string;
   confirmed:        boolean;
   blocked:          boolean;
-  role:             string | number | any;
-  physician:        string | number | any;
-  nurse:            string | number | any;
-  location:         string | number | any;
-  ai_consultations: (string | number)[] | any;
+  role:             string | number | object;
+  physician:        Relation<Data<PhysicianFields>>;
+  nurse:            Relation<Data<NurseFields>>;
+  location:         string | number | object;
+  ai_consultations: Relation<Data<AiConsultationFields>[]>;
 };
 
 export type ObservationField = 'desconocido' | 'negado' | 'presente';
@@ -57,7 +57,7 @@ export type PatientFields = {
   drug_addictions:                string;
   inheritance_history:            string;
   non_pathological_history:       string
-  cases:                          (string | number)[] | any;
+  cases:                          Relation<Data<CaseFields>[]>;
 };
 
 export type ResourceFields = {
@@ -65,49 +65,49 @@ export type ResourceFields = {
   description:  string,
   type:         'Cubículo emergencias' | 'Habitación' | 'Quirófano' | 'Sala de choque' | 'Sala de rehabilitación' | 'Consultorio' | 'Sala de espera' | 'Rx' | 'Tomografía computarizad' | 'Resonancia Magnética' | 'Ultrasonido' | 'Electrocardiograma',
   available:    boolean,
-  location:     string | number | any,
-  picture:      (string | number)[] | any,
+  location:     string | number | object,
+  picture:      (string | number)[] | object,
 };
 
 export type CaseFields = {
   title:                  string;
   description:            string;
   status:                 'Triaje' | 'Urgencias' | 'Consulta' | 'Interno' | 'Ambulatorio' | 'Observación' | 'Seguimiento externo' | 'Alta';
-  location:               string | number | any;
-  patient:                string | number | any;
-  primary_care_physician: string | number | any;
-  nurse:                  string | number | any;
-  resource:               string | number | any;
-  observations:           (string | number)[] | any;
-  consultations:          (string | number)[] | any;
-  diagnoses:              (string | number)[] | any;
-  ai_reports:             (string | number)[] | any;
+  location:               string | number | object;
+  patient:                Relation<Data<PatientFields>>;
+  primary_care_physician: Relation<Data<PhysicianFields>>;
+  nurse:                  Relation<Data<NurseFields>>;
+  resource:               Relation<Data<ResourceFields>>;
+  observations:           Relation<Data<ObservationFields>[]>;
+  consultations:          Relation<Data<ConsultationFields>[]>;
+  diagnoses:              (string | number)[] | object;
+  ai_reports:             Relation<Data<AiReportFields>[]>;
 };
 
 export type ObservationFields = {
   description:  string;
   ai_assisted:  boolean;
-  json:         any;
+  json:         object;
   fhir_id:      string;
   unit:         string;
   value:        string;
   time:         string;
-  user:         string | number | any;
-  case:         string | number | any;
-  images:       (string | number)[] | any;
+  user:         Relation<Data<UserFields>>;
+  case:         Relation<Data<CaseFields>>;
+  images:       (string | number)[] | object;
 };
 
 export type PhysicianFields = {
   professional_id:  string;
-  user:             string | number | any;
-  providers:        (string | number)[] | any;
-  cases:            (string | number)[] | any;
-  ai_consultations: (string | number)[] | any;
+  user:             Relation<Data<UserFields>>;
+  providers:        (string | number)[] | object;
+  cases:            Relation<Data<CaseFields>[]>;
+  ai_consultations: Relation<Data<AiConsultationFields>[]>;
 };
 
 export type NurseFields = {
-  user:   string | number | any;
-  cases:  (string | number)[] | any;
+  user:   Relation<Data<UserFields>>;
+  cases:  Relation<Data<CaseFields>[]>;
 };
 
 export type PinFields = {
@@ -124,10 +124,10 @@ export type ConsultationFields = {
   patient_type:             'Adulto' | 'Obstetrico' | 'Pediatrico';
   entry_mode:               'Solo' | 'Amigo' | 'Ambulancia' | 'Familia' | 'Oficial' | 'Otro';
   patient_classification:   'green' | 'yellow' | 'red';
-  physician:                string | number | any;
-  case:                     string | number | any;
-  ai_consultations:         (string | number)[] | any;
-  medical_notes:            (string | number)[] | any;
+  physician:                Relation<Data<PhysicianFields>>;
+  case:                     Relation<Data<CaseFields>>;
+  ai_consultations:         Relation<Data<AiConsultationFields>[]>;
+  medical_notes:            Relation<Data<MedicalNoteFields>[]>;
 };
 
 export type QuestionsAnswersFields = {
@@ -164,9 +164,9 @@ export type AiReportFields = {
   diagnose:         DiagnoseFields[];
   medical_tests:    MedicalTestFields;
   emergency_index:  EmergencyIndexFields;
-  case:             string | number | any;
-  consultations:    (string | number)[] | any;
-  observations:     (string | number)[] | any;
+  case:             Relation<Data<CaseFields>>;
+  consultations:    Relation<Data<ConsultationFields>[]>;
+  observations:     Relation<Data<ObservationFields>[]>;
 };
 
 export type AiConsultationFields = {
@@ -181,10 +181,10 @@ export type AiConsultationFields = {
   content_patient:    string;
   ended:              string;
   user_type:          'médico' | 'paciente' | 'contacto primario' | 'profesional de la salud';
-  consultation:       string | number | any;
-  physician:          string | number | any;
-  user:               string | number | any;
-  files:              (string | number)[] | any;
+  consultation:       Relation<Data<ConsultationFields>>;
+  physician:          Relation<Data<PhysicianFields>>;
+  user:               Relation<Data<UserFields>>;
+  files:              (string | number)[] | object;
 };
 
 export type MedicalNoteFields = {
@@ -201,14 +201,14 @@ export type MedicalNoteFields = {
   ai_plan:                string;
   ai_plan_warnings:       string;
   completed:              boolean;
-  consultation:           string | number | any;
-  media:                  (string | number)[] | any;
+  consultation:           Relation<Data<ConsultationFields>>;
+  media:                  (string | number)[] | object;
 };
 
 // DATA
 
 export type Relation<T> = {
-  data: T;
+  data: T | null;
 };
 
 export type Attributes<T> = {
@@ -225,8 +225,12 @@ export type Data<T> = {
 };
 
 export type FieldsUpdate<T> = {
-  [K in keyof T]?: T[K];
-}
+  [K in keyof T]?: T[K] extends Relation<infer U>
+    ? U extends Array<U>
+      ? (number | string)[]
+      : (number | string)
+    : T[K];
+};
 
 export type Creation<T> = {
   id: number;
