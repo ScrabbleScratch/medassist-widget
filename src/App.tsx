@@ -1,33 +1,32 @@
 import ReactDOM from 'react-dom/client';
 
 // ** Contexts imports
-import Authenticator from './context/Authenticator/Authenticator';
+import Authenticator from './context/Authenticator';
 
 // ** Custom components imports
 import ThemeComponent from './theme/ThemeComponent';
 import AiTools from './components/AiTools/AiTools';
 
 type Props = {
-  username?: string;
-  password?: string;
-  rememberMe?: boolean;
+  apiToken: string;
+  aiConsultationUuid: string;
 };
 
-function App({ username, password, rememberMe }: Props) {
+function App({ apiToken, aiConsultationUuid }: Props) {
   return (
     <ThemeComponent>
-      <Authenticator username={username} password={password} rememberMe={rememberMe}>
+      <Authenticator apiToken={apiToken} aiConsultationUuid={aiConsultationUuid}>
         <AiTools />
       </Authenticator>
     </ThemeComponent>
   );
 }
 
-export function mount(username: string, password: string, rememberMe?: boolean) {
+export function mount(apiToken: string, aiConsultationUuid: string) {
   const widget = document.createElement('div');
   widget.id = 'medassist-widget';
   document.body.appendChild(widget);
-  ReactDOM.createRoot(widget).render(<App username={username} password={password} rememberMe={rememberMe} />);
+  ReactDOM.createRoot(widget).render(<App apiToken={apiToken} aiConsultationUuid={aiConsultationUuid} />);
 }
 
 export default App;

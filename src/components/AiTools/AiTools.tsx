@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 
 // ** MUI Imports
 import Button from '@mui/material/Button';
@@ -13,19 +13,7 @@ import { Icon } from '@iconify/react';
 import AiToolsHeader from './AiToolsHeader';
 import ChatTab from './ChatTab';
 
-// ** Custom hooks imports
-import { useAuth } from '../../hooks/useAuth';
-
-type Props = {
-  username?: string;
-  password?: string;
-  rememberMe?: boolean;
-};
-
-const AiTools = ({ username, password, rememberMe }: Props) => {
-  // ** Hooks
-  const { login } = useAuth();
-
+const AiTools = () => {
   // ** State
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -43,11 +31,6 @@ const AiTools = ({ username, password, rememberMe }: Props) => {
   };
 
   const open = Boolean(anchorEl);
-
-  useEffect(() => {
-    if (!username || !password) return;
-    login(username, password, rememberMe);
-  }, [username, password, rememberMe, login]);
 
   return (
     <>

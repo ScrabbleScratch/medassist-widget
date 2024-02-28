@@ -1,45 +1,11 @@
 import axios from 'axios';
 
 // ** Types imports
-import type { UserDataType } from '../../context/Authenticator/types';
 import type { Data, FieldsUpdate, PatientFields, CaseFields, ObservationFields, ConsultationFields, AiConsultationFields } from './types';
 
 const strapi = axios.create({
   baseURL: 'https://api.aihxp.com/api',
 });
-
-// AUTHENTICATION
-
-export async function login(username: string, password: string): Promise<string | null> {
-  try {
-    const response = await strapi.post('/auth/local', { identifier: username, password });
-
-    return response.data.jwt;
-  } catch (error) {
-    console.log(error);
-
-    return null;
-  }
-}
-
-export async function getMe(token: string): Promise<UserDataType | null> {
-  try {
-    const response = await strapi.get('/users/me', {
-      params: {
-        'populate': 'role, location, location.provider, physician, nurse',
-      },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.log(error);
-
-    return null;
-  }
-}
 
 // PATIENTS
 
@@ -228,7 +194,7 @@ export async function getAiConsultationByUuid(uuid: string, token: string): Prom
   try {
     const response = await strapi.get('/ai-consultations', {
       params: {
-        'populate': '*',
+        'populate': 'consultation,consultation.case,consultation.case,consultation.case.patient',
         'filters[uuid]': uuid,
       },
       headers: {
@@ -350,9 +316,9 @@ export async function initializeAgentCompletion(consultationUuid: string, userId
       return null;
     }
 
-    const aiConsultations: Data<AiConsultationFields>[] = consultation.attributes.ai_consultations.data;
+    const aiConsultations = consultation.attributes.ai_consultations.data;
 
-    let userAiConsultation = aiConsultations.find(aiConsultation => aiConsultation.attributes.user.data?.id === userId) ?? null
+    let userAiConsultation = aiConsultations?.find(aiConsultation => aiConsultation.attributes.user.data?.id === userId) ?? null
 
     if (!userAiConsultation)
       userAiConsultation = await createOrUpdateAiConsultationByUuid('', {
