@@ -56,7 +56,7 @@ const DataController = ({ aiConsultationUuid, children }: Props) => {
         setCaseData(caseData);
         const patientData = caseData?.attributes.patient?.data ?? null;
         setPatient(patientData);
-        console.log('PARSED DATA:', { aiConsultationData, consultationData, caseData, patientData });
+        // console.log('PARSED DATA:', { aiConsultationData, consultationData, caseData, patientData });
       });
   };
 

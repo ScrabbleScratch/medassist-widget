@@ -31,13 +31,6 @@ const ChatTab = forwardRef((_, chatBarRef) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // ** Functions
-  // const findAiConsultationByUser = (aiConsultations: Data<AiConsultationFields>[]) => {
-  //   if (!user) return null;
-
-  //   return aiConsultations.find(aiConsultation => aiConsultation.attributes.user.data?.id === user.id) ?? null;
-  // };
-
   const requestAiConsultation = async (message: string, attachments: File[], messageHistory: Message[], updateHistory = true) => {
     if (!token) {
       console.error('Can not connect to chat because token is empty!');
@@ -64,8 +57,6 @@ const ChatTab = forwardRef((_, chatBarRef) => {
       return;
     }
 
-    console.log('Completion:', completion);
-
     if (!updateHistory) return;
 
     const newMessages = [...messageHistory];
@@ -80,8 +71,6 @@ const ChatTab = forwardRef((_, chatBarRef) => {
   };
 
   const handleSend = (message: string, attachments: File[]) => {
-    console.log(message, attachments);
-
     const newMessages = [...messages, { message, attachments, isUser: true, sentAt: new Date().toLocaleTimeString() , read: false }];
 
     setMessages(newMessages);
