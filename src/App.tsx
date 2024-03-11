@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client';
 
 // ** Contexts imports
 import Authenticator from './context/Authenticator';
+import DataController from './context/DataController';
 
 // ** Custom components imports
 import ThemeComponent from './theme/ThemeComponent';
@@ -15,8 +16,10 @@ type Props = {
 function App({ apiToken, aiConsultationUuid }: Props) {
   return (
     <ThemeComponent>
-      <Authenticator apiToken={apiToken} aiConsultationUuid={aiConsultationUuid}>
-        <AiTools />
+      <Authenticator apiToken={apiToken}>
+        <DataController aiConsultationUuid={aiConsultationUuid}>
+          <AiTools />
+        </DataController>
       </Authenticator>
     </ThemeComponent>
   );
