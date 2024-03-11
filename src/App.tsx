@@ -26,10 +26,19 @@ function App({ apiToken, aiConsultationUuid }: Props) {
 }
 
 export function mount(apiToken: string, aiConsultationUuid: string) {
+  if (document.getElementById('medassist-widget')) {
+    console.error('Mounting multiple instances of the widget is not allowed.');
+    return;
+  }
   const widget = document.createElement('div');
   widget.id = 'medassist-widget';
   document.body.appendChild(widget);
   ReactDOM.createRoot(widget).render(<App apiToken={apiToken} aiConsultationUuid={aiConsultationUuid} />);
+}
+
+export function unmount() {
+  const widget = document.getElementById('medassist-widget');
+  if (widget) widget.remove();
 }
 
 export default App;
