@@ -10,19 +10,31 @@ import IconButton from '@mui/material/IconButton';
 // ** Iconify Imports
 import { Icon } from '@iconify/react';
 
-// const caseTranslate = {
-//   adult: 'Adulto',
-//   obstetric: 'Obstétrico',
-//   pediatric: 'Pediátrico',
-// };
+// ** Custom Hooks Imports
+import { useData } from '../../hooks/useData';
 
 type Props = {
   onClose?: () => void;
 };
 
 const AiToolsHeader = ({ onClose }: Props) => {
+  // ** Hooks
+  const { consultation, patient } = useData();
+
   // ** Context
   const theme = useTheme();
+
+  const name = [
+    patient?.attributes.first_name?.trim(),
+    patient?.attributes.middle_name?.trim(),
+    patient?.attributes.last_name?.trim(),
+    patient?.attributes.mother_last_name?.trim(),
+  ].filter(Boolean).join(' ');
+  const sex = patient?.attributes.sex?.trim();
+  const age = patient?.attributes.age;
+  const dob = patient?.attributes.birth_date?.trim();
+  const type = consultation?.attributes.patient_type?.trim();
+  const reason = consultation?.attributes.reason?.trim();
 
   return (
     <Stack
@@ -45,9 +57,11 @@ const AiToolsHeader = ({ onClose }: Props) => {
         </Badge>
       </Box>
       <Stack direction='column' width='100%'>
-        <Typography variant='body1' width='100%' fontSize='1.4em' fontWeight={700}>Paciente: John Doe</Typography>
-        <Typography variant='body2' width='100%' fontSize='1em'>Hombre  30 años (01/01/1995) (Adulto)</Typography>
-        <Typography variant='body1' width='100%' fontSize='1.2em' fontWeight={600}>Prueba de implementacion de chat widget</Typography>
+        {name && (
+          <Typography variant='body1' width='100%' fontSize='1.4em' fontWeight={700}>Paciente: {name}</Typography>
+        )}
+        <Typography variant='body2' width='100%' fontSize='1em'>{sex ? (sex === 'male' ? 'Hombre' : 'Mujer') : ''}  {age ? `${age} años` : ''} {dob ? `(${new Date(dob).toLocaleDateString()})` : ''} {type ? `(${type})` : ''}</Typography>
+        <Typography variant='body1' width='100%' fontSize='1.2em' fontWeight={600}>{reason}</Typography>
       </Stack>
       {onClose && (
         <Box sx={{ alignSelf: 'flex-start' }}>
