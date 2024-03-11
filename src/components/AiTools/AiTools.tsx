@@ -63,8 +63,7 @@ const AiTools = () => {
         sx={{
           backgroundColor: '#0005',
         }}
-        onKeyDown={(e) => {
-          console.log('Key down:', e);
+        onKeyDown={() => {
           chatBarRef.current?.focus();
         }}
       >

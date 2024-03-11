@@ -14,6 +14,7 @@ export type DataValuesType = {
   consultation: Data<ConsultationFields> | null;
   caseData: Data<CaseFields> | null;
   patient: Data<PatientFields> | null;
+  loadData: () => void;
 };
 
 const defaultProvider: DataValuesType = {
@@ -21,6 +22,7 @@ const defaultProvider: DataValuesType = {
   consultation: null,
   caseData: null,
   patient: null,
+  loadData: () => {},
 };
 
 export const DataContext = createContext(defaultProvider);
@@ -40,15 +42,11 @@ const DataController = ({ aiConsultationUuid, children }: Props) => {
   const [caseData, setCaseData] = useState<Data<CaseFields> | null>(null);
   const [patient, setPatient] = useState<Data<PatientFields> | null>(null);
 
-  const values = {
-    aiConsultation,
-    consultation,
-    caseData,
-    patient,
-  };
-
-  useEffect(() => {
-    if (!token) return;
+  const loadData = async () => {
+    if (!token) {
+      console.error('Can not connect to chat because token is empty!');
+      return;
+    }
     getAiConsultationByUuid(aiConsultationUuid, token)
       .then((aiConsultationData: Data<AiConsultationFields> | null) => {
         setAiConsultation(aiConsultationData);
@@ -60,6 +58,18 @@ const DataController = ({ aiConsultationUuid, children }: Props) => {
         setPatient(patientData);
         console.log('PARSED DATA:', { aiConsultationData, consultationData, caseData, patientData });
       });
+  };
+
+  const values = {
+    aiConsultation,
+    consultation,
+    caseData,
+    patient,
+    loadData,
+  };
+
+  useEffect(() => {
+    loadData();
   }, []);
 
   return (
