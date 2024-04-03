@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // ** MUI Imports
 import Button from '@mui/material/Button';
@@ -13,9 +13,34 @@ import { Icon } from '@iconify/react';
 import AiToolsHeader from './AiToolsHeader';
 import ChatTab from './ChatTab';
 
+type CustomTabPanelProps = {
+  name: string;
+  value: string;
+  children?: React.ReactNode;
+};
+
+function CustomTabPanel({ name, value, children }: CustomTabPanelProps) {
+  return (
+    <div
+      style={{
+        height: '100%',
+        maxHeight: '100%',
+        overflow: 'hidden',
+      }}
+      role='tabpanel'
+      hidden={value !== name}
+    >
+      <Box height='100%'>
+        {children}
+      </Box>
+    </div>
+  );
+}
+
 const AiTools = () => {
   // ** State
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [tab, setTab] = useState<string>('chat');
 
   // ** Refs
   const chatBarRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
@@ -31,6 +56,10 @@ const AiTools = () => {
   };
 
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    console.log('New tab:', tab);
+  }, [tab]);
 
   return (
     <>
@@ -68,8 +97,16 @@ const AiTools = () => {
         }}
       >
         <Box width='90vw' height='80vh' display='flex' flexDirection='column'>
-          <AiToolsHeader onClose={handleClose} />
-          <ChatTab ref={chatBarRef} />
+          <AiToolsHeader currentTab={tab} onTabChange={setTab} onClose={handleClose} />
+          <CustomTabPanel value={tab} name='chat'>
+            <ChatTab ref={chatBarRef} />
+          </CustomTabPanel>
+          <CustomTabPanel value={tab} name='alerts'>
+            <h1>Alertas</h1>
+          </CustomTabPanel>
+          <CustomTabPanel value={tab} name='list'>
+            <h1>Listado</h1>
+          </CustomTabPanel>
         </Box>
       </Popover>
     </>

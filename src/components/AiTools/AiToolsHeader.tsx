@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Badge from '@mui/material/Badge';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 
 // ** Iconify Imports
 import { Icon } from '@iconify/react';
@@ -14,10 +16,12 @@ import { Icon } from '@iconify/react';
 import { useData } from '../../hooks/useData';
 
 type Props = {
+  currentTab?: string;
+  onTabChange?: (newTab: string) => void;
   onClose?: () => void;
 };
 
-const AiToolsHeader = ({ onClose }: Props) => {
+const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
   // ** Hooks
   const { consultation, patient } = useData();
 
@@ -36,6 +40,21 @@ const AiToolsHeader = ({ onClose }: Props) => {
   const type = consultation?.attributes.patient_type?.trim();
   const reason = consultation?.attributes.reason?.trim();
 
+  const handleChange = (newValue: string) => {
+    onTabChange && onTabChange(newValue);
+  };
+
+  const CustomTabButton = ({ name, children }: { name: string, children: string }) => {
+    return (
+      <Button
+        variant={currentTab === name ? 'contained' : 'text' }
+        onClick={() => handleChange(name)}
+      >
+        {children}
+      </Button>
+    );
+  };
+
   return (
     <Stack
       direction='row'
@@ -53,18 +72,23 @@ const AiToolsHeader = ({ onClose }: Props) => {
           variant='dot'
           color='success'
         >
-          <Avatar alt='Asistente Virtual' src='https://api.aihxp.com/uploads/4_b4b7515f1c.png' sx={{ width: '60px', height: '60px' }} />
+          <Avatar alt='Asistente Virtual' src='https://api.aihxp.com/uploads/4_b4b7515f1c.png' sx={{ width: '50px', height: '50px' }} />
         </Badge>
       </Box>
       <Stack direction='column' width='100%'>
         {name && (
-          <Typography variant='body1' width='100%' fontSize='1.4em' fontWeight={700}>Paciente: {name}</Typography>
+          <Typography variant='body1' width='100%' fontWeight={700}>Paciente: {name}</Typography>
         )}
-        <Typography variant='body2' width='100%' fontSize='1em'>{sex ? (sex === 'male' ? 'Hombre' : 'Mujer') : ''}  {age ? `${age} años` : ''} {dob ? `(${new Date(dob).toLocaleDateString()})` : ''} {type ? `(${type})` : ''}</Typography>
-        <Typography variant='body1' width='100%' fontSize='1.2em' fontWeight={600}>{reason}</Typography>
+        <Typography variant='body2' width='100%'>{sex ? (sex === 'male' ? 'Hombre' : 'Mujer') : ''}  {age ? `${age} años` : ''} {dob ? `(${new Date(dob).toLocaleDateString()})` : ''} {type ? `(${type})` : ''}</Typography>
+        <Typography variant='body1' width='100%' fontWeight={600}>{reason}</Typography>
       </Stack>
+      <ButtonGroup variant='text' aria-label='tabs'>
+        <CustomTabButton name='chat'>Chat</CustomTabButton>
+        <CustomTabButton name='alerts'>Alertas</CustomTabButton>
+        <CustomTabButton name='list'>Lista</CustomTabButton>
+      </ButtonGroup>
       {onClose && (
-        <Box sx={{ alignSelf: 'flex-start' }}>
+        <Box alignSelf='flex-start'>
           <IconButton size='large' onClick={onClose}>
             <Icon icon='material-symbols:close' fontSize='1.2em' />
           </IconButton>
