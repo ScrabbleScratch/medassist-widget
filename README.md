@@ -4,7 +4,7 @@ This is a simple chat widget client for the MedAssist chat server. It is built u
 ## Installation
 To install the widget you can include the following script at the end of your HTML file:
 ```html
-<script type="text/javascript" charset="UTF-8" src="<MODULE_URL>"></script>
+<script type="text/javascript" charset="UTF-8" src="https://cdn.jsdelivr.net/gh/ScrabbleScratch/medassist-widget@master/latest_build/medassist.umd.js"></script>
 <script type="text/javascript">
   MedAssist.mount(
     '<YOUR_API_TOKEN>',
