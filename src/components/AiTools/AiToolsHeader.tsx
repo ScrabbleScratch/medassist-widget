@@ -83,9 +83,9 @@ const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
         <Typography variant='body1' width='100%' fontWeight={600}>{reason}</Typography>
       </Stack>
       <ButtonGroup variant='text' aria-label='tabs'>
-        <CustomTabButton name='chat'>Chat</CustomTabButton>
-        <CustomTabButton name='alerts'>Alertas</CustomTabButton>
-        <CustomTabButton name='list'>Lista</CustomTabButton>
+        <CustomTabButton name='chat'>MedAssist</CustomTabButton>
+        <CustomTabButton name='sintomatix'>Cuestionario AI</CustomTabButton>
+        <CustomTabButton name='list'>Lista de espera</CustomTabButton>
       </ButtonGroup>
       {onClose && (
         <Box alignSelf='flex-start'>

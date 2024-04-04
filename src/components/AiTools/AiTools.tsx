@@ -101,8 +101,8 @@ const AiTools = () => {
           <CustomTabPanel value={tab} name='chat'>
             <ChatTab ref={chatBarRef} />
           </CustomTabPanel>
-          <CustomTabPanel value={tab} name='alerts'>
-            <h1>Alertas</h1>
+          <CustomTabPanel value={tab} name='sintomatix'>
+            <h1>Sintomatix</h1>
           </CustomTabPanel>
           <CustomTabPanel value={tab} name='list'>
             <h1>Listado</h1>
