@@ -71,6 +71,4 @@ const ChatTab = forwardRef((_, chatBarRef) => {
   );
 });
 
-ChatTab.displayName = 'ChatTab';
-
 export default ChatTab;

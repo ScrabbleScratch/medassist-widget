@@ -12,6 +12,7 @@ import { Icon } from '@iconify/react';
 // ** Custom Components Imports
 import AiToolsHeader from './AiToolsHeader';
 import ChatTab from './ChatTab';
+import SintomatixTab from './SintomatixTab';
 
 type CustomTabPanelProps = {
   name: string;
@@ -98,7 +99,7 @@ const AiTools = () => {
             <ChatTab ref={chatBarRef} />
           </CustomTabPanel>
           <CustomTabPanel value={tab} name='sintomatix'>
-            <h1>Sintomatix</h1>
+            <SintomatixTab />
           </CustomTabPanel>
           <CustomTabPanel value={tab} name='list'>
             <h1>Listado</h1>
