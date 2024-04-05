@@ -18,6 +18,7 @@ import { Icon } from '@iconify/react';
 
 // Hooks Imports
 import { useAuth } from '../../hooks/useAuth';
+import { useData } from '../../hooks/useData';
 
 // Utils Imports
 import { sendSintomatixEmail, sendSintomatixSms } from '../../utils/strapi';
@@ -25,12 +26,13 @@ import { sendSintomatixEmail, sendSintomatixSms } from '../../utils/strapi';
 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phonePattern = /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/;
 
-const sintomatix = 'http://espamedic.localhost:5174/widget_transferred?consultation_uuid=155140fd-f810-46b8-8e8d-2d4aa25a43ca&case_context_uuid=df1c544a-0bba-4460-90b2-9e89428d85f9&who_is=patient';
-
 const SintomatixTab = () => {
   const { token } = useAuth();
+  const { initParams, provider } = useData();
 
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const sintomatix = `http://${provider?.host}.localhost:5174/widget_transferred?case_context_uuid=${initParams.caseContextUuid}&who_is=patient`;
 
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState<boolean>();
