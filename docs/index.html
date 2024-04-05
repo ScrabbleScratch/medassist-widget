@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Testing</title>
+  </head>
+  <body>
+    <h1>Testing</h1>
+    <p>This is a test page.</p>
+
+    <!-- Create a script that inserts a button in the bottom right corner that when clicked opens an iframe that loads localhost:3000 and passes an authentication token and when the button is clicked again, or the user clicks outside closes the iframe -->
+    
+    <button id="medAssistButton">Unmount MedAssist</button>
+
+    <script type="text/javascript" src="../latest_build/medassist.umd.js" charset="UTF-8"></script>
+    <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/ScrabbleScratch/medassist-widget@case-context/latest_build/medassist.umd.min.js" charset="UTF-8"></script> -->
+    <script type="text/javascript">
+      MedAssist.mount(
+        practitionerUuid='780c6f7d-6766-4d8f-a692-630e9e79be91',
+        patientUuid='12345',
+        caseContextUuid='d9b62bbb-b804-4ed7-b8e0-39ad9ace9271',
+        platformUuid='09ba988f-501c-4fb7-a19c-0beabbc0c175',
+        providerUuid='54cf10e6-9085-48c6-a97b-62b145193518',
+        apiToken='dda63cc0f9d2a10b8cf68f378a1014c3b72f66c96914654418c58675cf55cbe97810cdaafc9763b3a8b72f8d1d15d3fa8eb76cb4be8baec496d9f55cb01f5b5bb995ff6135f132d858773653653a99b8d2595269a69569ea2a85a67b49435cf0edbbdf2a873267b43602fa8b6e5f56af038911bf17381cda5a08a810ba586c9b',
+      );
+      document.getElementById('medAssistButton').addEventListener('click', function() {
+        MedAssist.unmount();
+      });
+    </script>
+  </body>
+</html>
