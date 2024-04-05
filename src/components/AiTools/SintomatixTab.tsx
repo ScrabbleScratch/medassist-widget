@@ -32,7 +32,8 @@ const SintomatixTab = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const sintomatix = `http://${provider?.host}.localhost:5174/widget_transferred?case_context_uuid=${initParams.caseContextUuid}&who_is=patient`;
+  const sintomatixBaseUrl = import.meta.env.VITE_SINTOMATIX_BASE_URL as string;
+  const sintomatix = `${sintomatixBaseUrl.replace('app', provider?.host || 'app')}/widget_transferred?case_context_uuid=${initParams.caseContextUuid}&who_is=patient`;
 
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState<boolean>();
