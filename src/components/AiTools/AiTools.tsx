@@ -31,7 +31,7 @@ function CustomTabPanel({ name, value, children }: CustomTabPanelProps) {
       role='tabpanel'
       hidden={value !== name}
     >
-      <Box height='100%'>
+      <Box height='100%' sx={{ overflowX: 'hidden', overflowY: 'auto' }}>
         {children}
       </Box>
     </div>

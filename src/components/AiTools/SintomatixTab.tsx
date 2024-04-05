@@ -87,8 +87,8 @@ const SintomatixTab = () => {
     );
   
   return (
-    <Box p='25px' overflow='hidden'>
-      <Stack direction='row'>
+    <Box p='25px'>
+      <Stack direction='row' gap={4}>
         <Box width='50%'>
           <Typography mb={4}>
             1. Muestra este código al paciente.<br />
