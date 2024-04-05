@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 
 // ** MUI Imports
 import Button from '@mui/material/Button';
@@ -56,10 +56,6 @@ const AiTools = () => {
   };
 
   const open = Boolean(anchorEl);
-
-  useEffect(() => {
-    console.log('New tab:', tab);
-  }, [tab]);
 
   return (
     <>
