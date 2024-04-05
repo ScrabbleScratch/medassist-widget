@@ -114,7 +114,7 @@ const DataController = ({ practitionerUuid, patientUuid, caseContextUuid, platfo
         setProvider(data?.provider);
         setPlatform(data?.platform);
 
-        const patientData = data?.case_context?.bundle?.entry?.find((entry: { resourceType: string; }) => entry.resourceType === 'Patient')?.resource;
+        const patientData = data?.case_context?.bundle?.entry?.find((entry: { resource: { resourceType: string }}) => entry.resource.resourceType === 'Patient')?.resource;
         if (patientData) setPatient({
           ...patientData,
           name: [...patientData.name[0].given, patientData.name[0].family].join(' '),
