@@ -9,15 +9,25 @@ import ThemeComponent from './theme/ThemeComponent';
 import AiTools from './components/AiTools/AiTools';
 
 type Props = {
+  practitionerUuid: string;
+  patientUuid: string;
+  caseContextUuid: string;
+  platformUuid: string;
+  providerUuid: string;
   apiToken: string;
-  aiConsultationUuid: string;
 };
 
-function App({ apiToken, aiConsultationUuid }: Props) {
+function App({ practitionerUuid, patientUuid, caseContextUuid, platformUuid, providerUuid, apiToken }: Props) {
   return (
     <ThemeComponent>
       <Authenticator apiToken={apiToken}>
-        <DataController aiConsultationUuid={aiConsultationUuid}>
+        <DataController
+          practitionerUuid={practitionerUuid}
+          patientUuid={patientUuid}
+          caseContextUuid={caseContextUuid}
+          platformUuid={platformUuid}
+          providerUuid={providerUuid}
+        >
           <AiTools />
         </DataController>
       </Authenticator>
@@ -25,7 +35,14 @@ function App({ apiToken, aiConsultationUuid }: Props) {
   );
 }
 
-export function mount(apiToken: string, aiConsultationUuid: string) {
+export function mount(
+  practitionerUuid: string,
+  patientUuid: string,
+  caseContextUuid: string,
+  platformUuid: string,
+  providerUuid: string,
+  apiToken: string
+) {
   if (document.getElementById('medassist-widget')) {
     console.error('Mounting multiple instances of the widget is not allowed.');
     return;
@@ -33,7 +50,16 @@ export function mount(apiToken: string, aiConsultationUuid: string) {
   const widget = document.createElement('div');
   widget.id = 'medassist-widget';
   document.body.appendChild(widget);
-  ReactDOM.createRoot(widget).render(<App apiToken={apiToken} aiConsultationUuid={aiConsultationUuid} />);
+  ReactDOM.createRoot(widget).render(
+    <App
+      practitionerUuid={practitionerUuid}
+      patientUuid={patientUuid}
+      caseContextUuid={caseContextUuid}
+      platformUuid={platformUuid}
+      providerUuid={providerUuid}
+      apiToken={apiToken}
+    />
+  );
 }
 
 export function unmount() {

@@ -23,22 +23,17 @@ type Props = {
 
 const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
   // ** Hooks
-  const { consultation, patient } = useData();
+  const { patient } = useData();
 
   // ** Context
   const theme = useTheme();
 
-  const name = [
-    patient?.attributes.first_name?.trim(),
-    patient?.attributes.middle_name?.trim(),
-    patient?.attributes.last_name?.trim(),
-    patient?.attributes.mother_last_name?.trim(),
-  ].filter(Boolean).join(' ');
-  const sex = patient?.attributes.sex?.trim();
-  const age = patient?.attributes.age;
-  const dob = patient?.attributes.birth_date?.trim();
-  const type = consultation?.attributes.patient_type?.trim();
-  const reason = consultation?.attributes.reason?.trim();
+  const name = patient?.name
+  const sex = patient?.gender;
+  const age = null;
+  const dob = patient?.birth_date;
+  const type = null;
+  const reason = null;
 
   const handleChange = (newValue: string) => {
     onTabChange && onTabChange(newValue);

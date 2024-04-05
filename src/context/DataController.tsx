@@ -4,68 +4,160 @@ import { createContext, useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 
 // ** Utils imports
-import { getAiConsultationByUuid } from '../utils/strapi';
+import { getAiAssistance, postAiAssistance } from '../utils/strapi';
 
-// ** Types imports
-import type { Data, AiConsultationFields, ConsultationFields, CaseFields, PatientFields } from '../utils/strapi/types';
+// Case context fields
+export type Conversation = {
+  data: {
+    content: string;
+    timestamp: string;
+  };
+  type: 'human' | 'ai';
+}[];
+
+export type Practitioner = {
+  email: string;
+  family_name: string;
+  given_name: string;
+  uuid: string;
+};
+
+export type Provider = {
+  name: string;
+  description: string;
+  website_url: string;
+  legal_name: string;
+  phone: string;
+  email: string;
+  host: string;
+  uuid: string;
+};
+
+export type Platform = {
+  name: string;
+  description: string;
+  uuid: string;
+};
+
+export type Patient = {
+  name: string;
+  gender: string;
+  birth_date: string;
+};
 
 export type DataValuesType = {
-  aiConsultation: Data<AiConsultationFields> | null;
-  consultation: Data<ConsultationFields> | null;
-  caseData: Data<CaseFields> | null;
-  patient: Data<PatientFields> | null;
+  initParams: {
+    practitionerUuid: string;
+    patientUuid: string;
+    caseContextUuid: string;
+    platformUuid: string;
+    providerUuid: string;
+  },
+  conversation: Conversation | null,
+  practitioner: Practitioner | null,
+  provider: Provider | null,
+  platform: Platform | null,
+  patient: Patient | null,
   loadData: () => void;
+  getCompletion: (input: string) => Promise<void>|void;
 };
 
 const defaultProvider: DataValuesType = {
-  aiConsultation: null,
-  consultation: null,
-  caseData: null,
+  initParams: {
+    practitionerUuid: '',
+    patientUuid: '',
+    caseContextUuid: '',
+    platformUuid: '',
+    providerUuid: '',
+  },
+  conversation: null,
+  practitioner: null,
+  provider: null,
+  platform: null,
   patient: null,
   loadData: () => {},
+  getCompletion: () => {},
 };
 
 export const DataContext = createContext(defaultProvider);
 
 type Props = {
-  aiConsultationUuid: string;
+  practitionerUuid: string;
+  patientUuid: string;
+  caseContextUuid: string;
+  platformUuid: string;
+  providerUuid: string;
   children: React.ReactNode;
 };
 
-const DataController = ({ aiConsultationUuid, children }: Props) => {
+const DataController = ({ practitionerUuid, patientUuid, caseContextUuid, platformUuid, providerUuid, children }: Props) => {
   // ** Hooks
   const { token } = useAuth();
 
   // ** States
-  const [aiConsultation, setAiConsultation] = useState<Data<AiConsultationFields> | null>(null);
-  const [consultation, setConsultation] = useState<Data<ConsultationFields> | null>(null);
-  const [caseData, setCaseData] = useState<Data<CaseFields> | null>(null);
-  const [patient, setPatient] = useState<Data<PatientFields> | null>(null);
+  const [conversation, setConversation] = useState<Conversation | null>(null);
+  const [practitioner, setPractitioner] = useState<Practitioner | null>(null);
+  const [provider, setProvider] = useState<Provider | null>(null);
+  const [platform, setPlatform] = useState<Platform | null>(null);
+  const [patient, setPatient] = useState<Patient | null>(null);
 
   const loadData = async () => {
     if (!token) {
       console.error('Can not connect to chat because token is empty!');
       return;
     }
-    getAiConsultationByUuid(aiConsultationUuid, token)
-      .then((aiConsultationData: Data<AiConsultationFields> | null) => {
-        setAiConsultation(aiConsultationData);
-        const consultationData = aiConsultationData?.attributes.consultation?.data ?? null;
-        setConsultation(consultationData);
-        const caseData = consultationData?.attributes.case?.data ?? null;
-        setCaseData(caseData);
-        const patientData = caseData?.attributes.patient?.data ?? null;
-        setPatient(patientData);
-        // console.log('PARSED DATA:', { aiConsultationData, consultationData, caseData, patientData });
+
+    getAiAssistance(practitionerUuid, caseContextUuid, platformUuid, providerUuid, token)
+      .then(data => {
+        setConversation(data?.conversation);
+        setPractitioner(data?.practitioner);
+        setProvider(data?.provider);
+        setPlatform(data?.platform);
+
+        const patientData = data?.case_context?.bundle?.entry?.find((entry: { resourceType: string; }) => entry.resourceType === 'Patient')?.resource;
+        if (patientData) setPatient({
+          ...patientData,
+          name: [...patientData.name[0].given, patientData.name[0].family].join(' '),
+        });
+      });
+  };
+
+  const getCompletion = async (input: string) => {
+    if (!token) {
+      console.error('Can not connect to chat because token is empty!');
+      return;
+    }
+
+    await postAiAssistance(input, practitionerUuid, caseContextUuid, platformUuid, providerUuid, null, token)
+      .then(data => {
+        setConversation(data?.conversation);
+        setPractitioner(data?.practitioner);
+        setProvider(data?.provider);
+        setPlatform(data?.platform);
+
+        const patientData = data?.case_context?.bundle?.entry?.find((entry: { resourceType: string; }) => entry.resourceType === 'Patient')?.resource;
+        if (patientData) setPatient({
+          ...patientData,
+          name: [...patientData.name[0].given, patientData.name[0].family].join(' '),
+        });
       });
   };
 
   const values = {
-    aiConsultation,
-    consultation,
-    caseData,
+    initParams: {
+      practitionerUuid,
+      patientUuid,
+      caseContextUuid,
+      platformUuid,
+      providerUuid,
+    },
+    conversation,
+    practitioner,
+    provider,
+    platform,
     patient,
     loadData,
+    getCompletion,
   };
 
   useEffect(() => {

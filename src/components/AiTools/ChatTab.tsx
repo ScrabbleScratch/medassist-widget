@@ -16,58 +16,24 @@ import ChatBar from './Chat/ChatBar';
 // ** Types
 import { Message } from './Chat/ChatBubble';
 
-// ** Utils Imports
-import { createAgentCompletion } from '../../utils/strapi';
-
-// ** Types Imports
-import { QuestionsAnswersFields } from '../../utils/strapi/types';
-
 const ChatTab = forwardRef((_, chatBarRef) => {
   // ** Hooks
   const { token } = useAuth();
-  const { aiConsultation } = useData();
+  const { conversation, getCompletion } = useData();
 
   // ** State
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const requestAiConsultation = async (message: string, attachments: File[], messageHistory: Message[], updateHistory = true) => {
+  // const requestAiConsultation = async (message: string, attachments: File[]) => {
+  const requestAiConsultation = async (message: string) => {
     if (!token) {
       console.error('Can not connect to chat because token is empty!');
 
       return;
     }
 
-    if (!aiConsultation) {
-      console.error('Can not connect to chat because could not retrieve ai-consultation data!');
-
-      return;
-    }
-
-    const payload = {
-      input: message,
-      ai_consultation_uuid: aiConsultation.attributes.uuid,
-    };
-
-    const completion = await createAgentCompletion(payload, attachments, token);
-
-    if (!completion) {
-      console.error('Could not retrieve agent completion data!');
-
-      return;
-    }
-
-    if (!updateHistory) return;
-
-    const newMessages = [...messageHistory];
-    newMessages.push({
-      message: completion.data.message,
-      isUser: false,
-      sentAt: new Date().toLocaleTimeString(),
-      read: true,
-    });
-
-    setMessages(newMessages);
+    await getCompletion(message);
   };
 
   const handleSend = (message: string, attachments: File[]) => {
@@ -75,7 +41,8 @@ const ChatTab = forwardRef((_, chatBarRef) => {
 
     setMessages(newMessages);
     setLoading(true);
-    requestAiConsultation(message, attachments, newMessages)
+    // requestAiConsultation(message, attachments)
+    requestAiConsultation(message)
       .catch(err => console.error(err))
       .finally(() => setLoading(false));
     // setLoading(false); // REMOVE LATER
@@ -84,24 +51,16 @@ const ChatTab = forwardRef((_, chatBarRef) => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      await requestAiConsultation('init', [], [], false);
-      if (!aiConsultation) return;
-      const newMessages: Message[] = aiConsultation.attributes.questions_answers?.map((qa: QuestionsAnswersFields) => ({
-        message: qa.data.content,
-        isUser: qa.type === 'human',
-        sentAt: new Date(qa.data.timestamp).toLocaleTimeString(),
+      if (!conversation) return;
+      const newMessages: Message[] = conversation?.map(msg => ({
+        message: msg.data.content,
+        isUser: msg.type === 'human',
+        sentAt: new Date(msg.data.timestamp).toLocaleTimeString(),
         read: true,
       })) ?? [];
-      if (newMessages.length === 0 && aiConsultation.attributes.medical_summary)
-        newMessages.push({
-          message: aiConsultation.attributes.medical_summary,
-          isUser: false,
-          sentAt: '',
-          read: true,
-        });
       setMessages(newMessages);
     })().finally(() => setLoading(false));
-  }, []);
+  }, [conversation]);
 
   return (
     <Box height='100%' maxHeight='100%' overflow='hidden'>
