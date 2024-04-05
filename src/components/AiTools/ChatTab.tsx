@@ -45,7 +45,6 @@ const ChatTab = forwardRef((_, chatBarRef) => {
     requestAiConsultation(message)
       .catch(err => console.error(err))
       .finally(() => setLoading(false));
-    // setLoading(false); // REMOVE LATER
   };
 
   useEffect(() => {

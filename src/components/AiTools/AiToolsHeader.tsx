@@ -28,13 +28,6 @@ const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
   // ** Context
   const theme = useTheme();
 
-  const name = patient?.name
-  const sex = patient?.gender;
-  const age = null;
-  const dob = patient?.birth_date;
-  const type = null;
-  const reason = null;
-
   const handleChange = (newValue: string) => {
     onTabChange && onTabChange(newValue);
   };
@@ -43,6 +36,7 @@ const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
     return (
       <Button
         variant={currentTab === name ? 'contained' : 'text' }
+        size='small'
         onClick={() => handleChange(name)}
       >
         {children}
@@ -53,6 +47,7 @@ const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
   return (
     <Stack
       direction='row'
+      justifyContent='space-between'
       alignItems='center'
       spacing={6}
       padding='10px'
@@ -60,30 +55,51 @@ const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
         backgroundColor: theme.palette.background.default,
       }}
     >
-      <Box>
-        <Badge
-          overlap='circular'
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-          variant='dot'
-          color='success'
+      <Stack
+        width='100%'
+        direction='row'
+        justifyContent='space-between'
+        alignItems='center'
+        spacing={6}
+      >
+        <Stack
+          // width='100%'
+          direction='row'
+          alignItems='center'
+          spacing={6}
         >
-          <Avatar alt='Asistente Virtual' src='https://api.aihxp.com/uploads/4_b4b7515f1c.png' sx={{ width: '50px', height: '50px' }} />
-        </Badge>
-      </Box>
-      <Stack direction='column' width='100%'>
-        {name && (
-          <Typography variant='body1' width='100%' fontWeight={700}>Paciente: {name}</Typography>
-        )}
-        <Typography variant='body2' width='100%'>{sex ? (sex === 'male' ? 'Hombre' : 'Mujer') : ''}  {age ? `${age} años` : ''} {dob ? `(${new Date(dob).toLocaleDateString()})` : ''} {type ? `(${type})` : ''}</Typography>
-        <Typography variant='body1' width='100%' fontWeight={600}>{reason}</Typography>
+          <Box>
+            <Badge
+              overlap='circular'
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              variant='dot'
+              color='success'
+            >
+              <Avatar alt='Asistente Virtual' src='https://api.aihxp.com/uploads/4_b4b7515f1c.png' sx={{ width: '50px', height: '50px' }} />
+            </Badge>
+          </Box>
+          {patient ? (
+            <Stack direction='column' width='100%'>
+              <Typography variant='body1' width='100%' fontWeight={700}>Paciente: {patient.name}</Typography>
+              <Typography variant='body2' width='100%'>{patient.gender} {patient.birth_date ? `(${new Date(patient.birth_date).toLocaleDateString()})` : ''}</Typography>
+              {/* <Typography variant='body1' width='100%' fontWeight={600}>{reason}</Typography> */}
+            </Stack>
+          ) : (
+            <Box>
+              <Typography variant='body1' fontWeight={700} color='goldenrod'>
+                Sin contexto de paciente
+              </Typography>
+            </Box>
+          )}
+        </Stack>
+        <ButtonGroup variant='text' aria-label='tabs'>
+          <CustomTabButton name='chat'>MedAssist</CustomTabButton>
+          <CustomTabButton name='sintomatix'>Cuestionario AI</CustomTabButton>
+          <CustomTabButton name='list'>Lista de espera</CustomTabButton>
+        </ButtonGroup>
       </Stack>
-      <ButtonGroup variant='text' aria-label='tabs'>
-        <CustomTabButton name='chat'>MedAssist</CustomTabButton>
-        <CustomTabButton name='sintomatix'>Cuestionario AI</CustomTabButton>
-        <CustomTabButton name='list'>Lista de espera</CustomTabButton>
-      </ButtonGroup>
       {onClose && (
-        <Box alignSelf='flex-start'>
+        <Box justifySelf='flex-end' alignSelf='flex-start'>
           <IconButton size='large' onClick={onClose}>
             <Icon icon='material-symbols:close' fontSize='1.2em' />
           </IconButton>
