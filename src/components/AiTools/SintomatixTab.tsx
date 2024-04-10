@@ -86,7 +86,7 @@ const SintomatixTab = () => {
               Regresar
             </Button>
           </Box>
-          <iframe src={sintomatix} title='Sintomatix' width='100%' height='100%' />
+          <iframe src={sintomatix} title='Sintomatix' width='100%' height='100%' style={{ border: 'none' }} />
         </Stack>
       </Box>
     );
