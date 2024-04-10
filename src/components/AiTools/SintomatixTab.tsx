@@ -33,7 +33,9 @@ const SintomatixTab = () => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const sintomatixBaseUrl = import.meta.env.VITE_SINTOMATIX_BASE_URL as string;
-  const sintomatix = `${sintomatixBaseUrl.replace('app', provider?.host || 'app')}/widget_transferred?case_context_uuid=${initParams.caseContextUuid}&who_is=patient`;
+  const sintomatix = provider?.host ? (
+    `${sintomatixBaseUrl.replace('app', provider.host)}/widget_transferred?practitioner_uuid=${initParams.practitionerUuid}&case_context_uuid=${initParams.caseContextUuid}&platform_uuid=${initParams.platformUuid}&provider_uuid=${initParams.providerUuid}&who_is=patient`
+  ) : '';
 
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState<boolean>();
