@@ -67,7 +67,7 @@ const AiTools = () => {
         endIcon={<Icon icon='ic:baseline-auto-awesome' />}
         sx={{
           position: 'fixed',
-          bottom: '50px',
+          bottom: '40px',
           right: '25px',
         }}
         onClick={handleOpen}
@@ -79,7 +79,7 @@ const AiTools = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'right',
         }}
         transformOrigin={{
@@ -93,7 +93,7 @@ const AiTools = () => {
           chatBarRef.current?.focus();
         }}
       >
-        <Box width='90vw' height='80vh' display='flex' flexDirection='column'>
+        <Box width='90vw' height='88vh' display='flex' flexDirection='column'>
           <AiToolsHeader currentTab={tab} onTabChange={setTab} onClose={handleClose} />
           <CustomTabPanel value={tab} name='chat'>
             <ChatTab ref={chatBarRef} />
