@@ -36,6 +36,9 @@ const SintomatixTab = () => {
   const sintomatix = provider?.host ? (
     `${sintomatixBaseUrl.replace('app', provider.host)}/widget_transferred?practitioner_uuid=${initParams.practitionerUuid}&case_context_uuid=${initParams.caseContextUuid}&platform_uuid=${initParams.platformUuid}&provider_uuid=${initParams.providerUuid}&who_is=patient`
   ) : '';
+  const sintomatixPractitioner = provider?.host ? (
+    `${sintomatixBaseUrl.replace('app', provider.host)}/widget_transferred?practitioner_uuid=${initParams.practitionerUuid}&case_context_uuid=${initParams.caseContextUuid}&platform_uuid=${initParams.platformUuid}&provider_uuid=${initParams.providerUuid}&who_is=practitioner`
+  ) : '';
 
   const [sending, setSending] = useState(false);
   const [success, setSuccess] = useState<boolean>();
@@ -86,7 +89,7 @@ const SintomatixTab = () => {
               Regresar
             </Button>
           </Box>
-          <iframe src={sintomatix} title='Sintomatix' width='100%' height='100%' style={{ border: 'none' }} />
+          <iframe src={sintomatixPractitioner} title='Sintomatix' width='100%' height='100%' style={{ border: 'none' }} />
         </Stack>
       </Box>
     );
