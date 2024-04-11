@@ -34,10 +34,10 @@ const SintomatixTab = () => {
 
   const sintomatixBaseUrl = import.meta.env.VITE_SINTOMATIX_BASE_URL as string;
   const sintomatix = provider?.host ? (
-    `${sintomatixBaseUrl.replace('app', provider.host)}/widget_transferred?practitioner_uuid=${initParams.practitionerUuid}&case_context_uuid=${initParams.caseContextUuid}&platform_uuid=${initParams.platformUuid}&provider_uuid=${initParams.providerUuid}&who_is=patient`
+    `${sintomatixBaseUrl.replace('app', provider.host)}/medassist/transferred?practitioner_uuid=${initParams.practitionerUuid}&case_context_uuid=${initParams.caseContextUuid}&platform_uuid=${initParams.platformUuid}&provider_uuid=${initParams.providerUuid}&who_is=patient`
   ) : '';
   const sintomatixPractitioner = provider?.host ? (
-    `${sintomatixBaseUrl.replace('app', provider.host)}/widget_transferred?practitioner_uuid=${initParams.practitionerUuid}&case_context_uuid=${initParams.caseContextUuid}&platform_uuid=${initParams.platformUuid}&provider_uuid=${initParams.providerUuid}&who_is=practitioner`
+    `${sintomatixBaseUrl.replace('app', provider.host)}/medassist/transferred?practitioner_uuid=${initParams.practitionerUuid}&case_context_uuid=${initParams.caseContextUuid}&platform_uuid=${initParams.platformUuid}&provider_uuid=${initParams.providerUuid}&who_is=practitioner`
   ) : '';
 
   const [sending, setSending] = useState(false);
