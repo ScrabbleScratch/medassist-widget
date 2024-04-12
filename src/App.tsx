@@ -11,22 +11,22 @@ import AiTools from './components/AiTools/AiTools';
 type Props = {
   practitionerUuid: string;
   patientUuid: string;
-  caseContextUuid: string;
   platformUuid: string;
   providerUuid: string;
   apiToken: string;
+  caseContextUuid?: string | null;
 };
 
-function App({ practitionerUuid, patientUuid, caseContextUuid, platformUuid, providerUuid, apiToken }: Props) {
+function App({ practitionerUuid, patientUuid, platformUuid, providerUuid, apiToken, caseContextUuid }: Props) {
   return (
     <ThemeComponent>
       <Authenticator apiToken={apiToken}>
         <DataController
           practitionerUuid={practitionerUuid}
           patientUuid={patientUuid}
-          caseContextUuid={caseContextUuid}
           platformUuid={platformUuid}
           providerUuid={providerUuid}
+          caseContextUuid={caseContextUuid}
         >
           <AiTools />
         </DataController>
@@ -38,7 +38,7 @@ function App({ practitionerUuid, patientUuid, caseContextUuid, platformUuid, pro
 export function mount(
   practitionerUuid: string,
   patientUuid: string,
-  caseContextUuid: string,
+  caseContextUuid: string | null,
   platformUuid: string,
   providerUuid: string,
   apiToken: string
@@ -54,10 +54,10 @@ export function mount(
     <App
       practitionerUuid={practitionerUuid}
       patientUuid={patientUuid}
-      caseContextUuid={caseContextUuid}
       platformUuid={platformUuid}
       providerUuid={providerUuid}
       apiToken={apiToken}
+      caseContextUuid={caseContextUuid}
     />
   );
 }

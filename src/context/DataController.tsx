@@ -49,7 +49,7 @@ export type DataValuesType = {
   initParams: {
     practitionerUuid: string;
     patientUuid: string;
-    caseContextUuid: string;
+    caseContextUuid: string | null;
     platformUuid: string;
     providerUuid: string;
   },
@@ -66,9 +66,9 @@ const defaultProvider: DataValuesType = {
   initParams: {
     practitionerUuid: '',
     patientUuid: '',
-    caseContextUuid: '',
     platformUuid: '',
     providerUuid: '',
+    caseContextUuid: null,
   },
   conversation: null,
   practitioner: null,
@@ -84,13 +84,13 @@ export const DataContext = createContext(defaultProvider);
 type Props = {
   practitionerUuid: string;
   patientUuid: string;
-  caseContextUuid: string;
   platformUuid: string;
   providerUuid: string;
+  caseContextUuid?: string | null;
   children: React.ReactNode;
 };
 
-const DataController = ({ practitionerUuid, patientUuid, caseContextUuid, platformUuid, providerUuid, children }: Props) => {
+const DataController = ({ practitionerUuid, patientUuid, platformUuid, providerUuid, caseContextUuid, children }: Props) => {
   // ** Hooks
   const { token } = useAuth();
 
@@ -102,6 +102,11 @@ const DataController = ({ practitionerUuid, patientUuid, caseContextUuid, platfo
   const [patient, setPatient] = useState<Patient | null>(null);
 
   const loadData = async () => {
+    if (!caseContextUuid) {
+      console.log('Can not connect to chat because caseContextUuid is empty!');
+      return;
+    }
+
     if (!token) {
       console.error('Can not connect to chat because token is empty!');
       return;
@@ -123,6 +128,11 @@ const DataController = ({ practitionerUuid, patientUuid, caseContextUuid, platfo
   };
 
   const getCompletion = async (input: string) => {
+    if (!caseContextUuid) {
+      console.log('Can not connect to chat because caseContextUuid is empty!');
+      return;
+    }
+
     if (!token) {
       console.error('Can not connect to chat because token is empty!');
       return;
@@ -147,9 +157,9 @@ const DataController = ({ practitionerUuid, patientUuid, caseContextUuid, platfo
     initParams: {
       practitionerUuid,
       patientUuid,
-      caseContextUuid,
       platformUuid,
       providerUuid,
+      caseContextUuid: caseContextUuid || null,
     },
     conversation,
     practitioner,

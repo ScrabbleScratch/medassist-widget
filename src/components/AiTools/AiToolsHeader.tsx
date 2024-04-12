@@ -23,7 +23,7 @@ type Props = {
 
 const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
   // ** Hooks
-  const { patient } = useData();
+  const { initParams, patient } = useData();
 
   // ** Context
   const theme = useTheme();
@@ -94,7 +94,9 @@ const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
         </Stack>
         <ButtonGroup variant='text' aria-label='tabs'>
           <CustomTabButton name='chat'>MedAssist</CustomTabButton>
-          <CustomTabButton name='sintomatix'>Cuestionario AI</CustomTabButton>
+          {initParams?.caseContextUuid && (
+            <CustomTabButton name='sintomatix'>Cuestionario AI</CustomTabButton>
+          )}
           <CustomTabButton name='list'>Lista de espera</CustomTabButton>
         </ButtonGroup>
       </Stack>
