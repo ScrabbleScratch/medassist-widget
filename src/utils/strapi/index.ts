@@ -65,7 +65,7 @@ export async function sendSintomatixEmail(email: string, sintomatix: string, tok
 
 export async function sendSintomatixSms(phone: string, sintomatix: string, token: string): Promise<boolean> {
   try {
-    const response = await strapi.post('/system_message_email', {
+    const response = await strapi.post('/system_message_sms', {
       phone,
       type: 'sintomatix',
       args: sintomatix,
