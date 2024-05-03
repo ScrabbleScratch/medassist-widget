@@ -95,9 +95,9 @@ const AiToolsHeader = ({ currentTab, onTabChange, onClose }: Props) => {
         <ButtonGroup variant='text' aria-label='tabs'>
           <CustomTabButton name='chat'>MedAssist</CustomTabButton>
           {initParams?.caseContextUuid && (
-            <CustomTabButton name='sintomatix'>Cuestionario AI</CustomTabButton>
+            <CustomTabButton name='sintomatix'>Sintomatix</CustomTabButton>
           )}
-          <CustomTabButton name='list'>Lista de espera</CustomTabButton>
+          <CustomTabButton name='list'>Pacientes</CustomTabButton>
         </ButtonGroup>
       </Stack>
       {onClose && (
