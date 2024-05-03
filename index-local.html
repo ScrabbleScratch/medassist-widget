@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget Test Page</title>
+</head>
+<body>
+  <h2>Widget Test Page</h2>
+  <style>
+    body {
+      background-image: url("/screenshot-cloudhealth-manager.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+  </style>
+  <!-- You might need a specific div where your widget will attach itself -->
+  <div id="medassist-widget-container"></div>
+
+  <script type="text/javascript" charset="UTF-8" src="http://localhost:5173/latest_build/medassist.umd.js"></script>
+  <script type="text/javascript">
+    MedAssist.mount(
+      practitionerUuid='1e9b8c96-6e1d-4a3a-8e41-f9575a4716e2',
+      patientUuid='123456',
+      caseContextUuid='0fdeb077-1950-4151-943c-590988e30ddc',
+      platformUuid='058d63e3-1799-47d5-887f-d8089b1acb8c',
+      providerUuid='4c3920ed-8b5b-4a8b-905f-516c11127d03',
+      apiToken='9a2c3703ee78839f90e30b6d847e7ac65d644b37b82ae81abed9eac0b4d70e428ad5c8eb5429fff4f16abf3e06eb43f40f6e2f89562c18a3570484105d85610613c2364eb102d62898483d8be73f60ab769ed608c2a8932cee685cfb56345c73f90a86e8252a8574fb174914e12947a54530ba1c1ac4759aa573c8eb2d07072b',
+    );
+  </script>  
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Widget Test Page</title>
+  <style>
+    .section {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body style="margin: 200px 100px">
+  <div class="section">
+    <h2>Electronic Health Record of a Patient</h2>
+    <h3>CloudHealth Manager Test Page</h3>
+    <p>This page is just a demo to test how the widget opens up on a Patient's Health Record and allows the Practitioner to chat with the patient's health data and to conduct evidence-based research on the patient's case.</p>
+  </div>
+  <div class="section">
+    <h4>Context data passed to the widget:</h4>
+    <table width="80%">
+      <tr>
+        <th>Key</th>
+        <th>Name</th>
+        <th>Uuid</th>
+      </tr>
+      <tr>
+        <td>Practitioner</td>
+        <td>Dr. John Doe</td>
+        <td>780c6f7d-6766-4d8f-a692-630e9e79be91</td>
+      </tr>
+      <tr>
+        <td>Patient</td>
+        <td>Jane Doe</td>
+        <td>123456</td>
+      </tr>
+      <tr>
+        <td>CaseContext</td>
+        <td>Jane Doe's Health Record</td>
+        <td>d9b62bbb-b804-4ed7-b8e0-39ad9ace9271</td>
+      </tr>
+      <tr>
+        <td>Platform</td>
+        <td>CloudHealth Manager</td>
+        <td>09ba988f-501c-4fb7-a19c-0beabbc0c175</td>
+      </tr>
+      <tr>
+        <td>Provider</td>
+        <td>CloudHealth</td>
+        <td>54cf10e6-9085-48c6-a97b-62b145193518</td>
+      </tr>
+    </table>
+    </table>
+  </div>
+  <div class="section">
+    <div id="medassist-widget-container"></div>
+  </div>
+
+  <script type="text/javascript" charset="UTF-8" src="http://localhost:5173/latest_build/medassist.umd.js"></script>
+  <script type="text/javascript">
+    MedAssist.mount(
+      practitionerUuid='780c6f7d-6766-4d8f-a692-630e9e79be91',
+      patientUuid='123456',
+      caseContextUuid='d9b62bbb-b804-4ed7-b8e0-39ad9ace9271',
+      platformUuid='09ba988f-501c-4fb7-a19c-0beabbc0c175',
+      providerUuid='54cf10e6-9085-48c6-a97b-62b145193518',
+      apiToken='7244072621bf2af1974ed5dc4527091ed71e12c18fdbc5711cf69e8782a9b5028c0584b136a18173b6b066ac5d30c60aa060c5a41a5db5b70de4d3942e9ebd8e9c2f50a4c355d1c5b9539024c18af1f95098edea0042e5e5385fc52ae024c95a6c8971a65f565a7520fb77df2c434813fc6be92d25f286380b91357576ab0c53',
+    );
+  </script>  
+</body>
+</html>
