@@ -113,9 +113,9 @@ const ChatBar = forwardRef(({ loading, onSend }: Props, chatBarRef) => {
         {/* <IconButton onClick={handleMic} disabled={loading}>
           <Icon icon='material-symbols:mic' color={theme.palette.secondary.main} />
         </IconButton> */}
-        <IconButton onClick={() => fileInputRef.current?.click()} disabled={loading}>
+        {/*<IconButton onClick={() => fileInputRef.current?.click()} disabled={loading}>
           <Icon icon='material-symbols:attach-file' color={theme.palette.secondary.main} />
-        </IconButton>
+        </IconButton>*/}
         {loading ? (
           <IconButton sx={{ padding: 0 }}>
             <Icon icon='eos-icons:bubble-loading' color='black' fontSize='2em' />
