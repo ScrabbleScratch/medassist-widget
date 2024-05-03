@@ -5,6 +5,13 @@ import { useState, useRef } from 'react';
 import Button from '@mui/material/Button';
 import Popover from '@mui/material/Popover';
 import Box from '@mui/material/Box';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 // ** Iconify Imports
 import { Icon } from '@iconify/react';
@@ -46,8 +53,14 @@ const AiTools = () => {
   // ** Refs
   const chatBarRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
-  // ** Functions
+  // Sample patient data
+  const patients = [
+    { name: "Javier Carrasco", age: 30, reason: "Tos severa", waitTime: "15 min", urgency: "Media" },
+    { name: "Janeth Rivera L", age: 25, reason: "Cefalea aguda", waitTime: "10 min", urgency: "Alta" },
+    { name: "Alicia Jaimes F", age: 40, reason: "Revisión regular", waitTime: "25 min", urgency: "Baja" }
+  ];
 
+  // ** Functions
   const handleOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -102,7 +115,33 @@ const AiTools = () => {
             <SintomatixTab />
           </CustomTabPanel>
           <CustomTabPanel value={tab} name='list'>
-            <h1>Listado</h1>
+            <TableContainer component={Paper}>
+              <Table size="small" aria-label="a dense table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Nombre</TableCell>
+                    <TableCell align="right">Edad</TableCell>
+                    <TableCell align="right">Motivo</TableCell>
+                    <TableCell align="right">Espera</TableCell>
+                    <TableCell align="right">Urgencia</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {patients.map((patient) => (
+                    <TableRow
+                      key={patient.name}
+                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">{patient.name}</TableCell>
+                      <TableCell align="right">{patient.age}</TableCell>
+                      <TableCell align="right">{patient.reason}</TableCell>
+                      <TableCell align="right">{patient.waitTime}</TableCell>
+                      <TableCell align="right">{patient.urgency}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </CustomTabPanel>
         </Box>
       </Popover>
