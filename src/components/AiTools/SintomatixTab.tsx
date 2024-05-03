@@ -99,9 +99,9 @@ const SintomatixTab = () => {
       <Stack direction='row' gap={4}>
         <Box width='50%'>
           <Typography mb={4}>
-            1. Muestra este código al paciente.<br />
-            2. Pide que lo escanée con su celular.<br />
-            3. Indícale que siga instrucciones en pantalla.
+            1. Muestre este código al paciente.<br />
+            2. Pida que lo escanée con su celular.<br />
+            3. Indíquele que siga instrucciones en pantalla.
           </Typography>
           <Box textAlign='center'>
             <QRCode
@@ -127,7 +127,7 @@ const SintomatixTab = () => {
             <Alert severity='error'>Cuestionario no pudo ser enviado</Alert>
           )}
           <Typography mt={6} mb={2}>
-            O comparte este link con el paciente:
+            O comparta esta liga con el paciente:
           </Typography>
           <a href={sintomatix} target='_blank'>
             {sintomatix}
@@ -137,10 +137,10 @@ const SintomatixTab = () => {
       <Box mt='35px' p='15px' border='1px solid black' borderRadius='10px'>
         <Stack direction='row' justifyContent='space-between' alignItems='center' gap={4}>
           <Typography>
-            Abre el cuestionario y rellenalo para tu paciente
+            Abra el cuestionario para contestarlo con el paciente
           </Typography>
           <Button variant='outlined' size='small' onClick={() => setFillingSintomatix(true)}>
-            Llenar Cuestionario
+            Llenar Cuestionario aquí
           </Button>
         </Stack>
       </Box>
