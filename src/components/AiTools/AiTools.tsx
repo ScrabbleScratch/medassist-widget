@@ -80,8 +80,8 @@ const AiTools = () => {
         endIcon={<Icon icon='ic:baseline-auto-awesome' />}
         sx={{
           position: 'fixed',
-          bottom: '40px',
-          right: '25px',
+          bottom: '25px',
+          right: '90px',
         }}
         onClick={handleOpen}
       >
@@ -106,7 +106,7 @@ const AiTools = () => {
           chatBarRef.current?.focus();
         }}
       >
-        <Box width='90vw' height='88vh' display='flex' flexDirection='column'>
+        <Box width='60vw' minWidth='800px' height='88vh' display='flex' flexDirection='column'>
           <AiToolsHeader currentTab={tab} onTabChange={setTab} onClose={handleClose} />
           <CustomTabPanel value={tab} name='chat'>
             <ChatTab ref={chatBarRef} />
@@ -115,7 +115,7 @@ const AiTools = () => {
             <SintomatixTab />
           </CustomTabPanel>
           <CustomTabPanel value={tab} name='list'>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ padding: '30px' }}>
               <Table size="small" aria-label="a dense table">
                 <TableHead>
                   <TableRow>
